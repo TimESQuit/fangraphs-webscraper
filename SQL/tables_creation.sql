@@ -8,7 +8,7 @@ CREATE TABLE player_info (
 
 
 COPY player_info(Name, Fplayerid)
-FROM '~/Documents/baseball-data/Player_info.csv'
+FROM '/home/tim/Documents/baseball-data/Player_info.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -38,12 +38,13 @@ CREATE TABLE batters (
     Off REAL,
     Def REAL,
     WAR REAL,
-    Fplayerid INTEGER
+    Fplayerid INTEGER,
+    war_per_600 REAL
 );
 
 
-COPY batters(Name,Team,Year,G,PA,HR,R,RBI,SB,BB_rate,k_rate,ISO,BABIP,AVG,OBP,SLG,wOBA,wrc_plus,EV,BsR,Off,Def,WAR,Fplayerid)
-FROM '~/Documents/baseball-data/Batters.csv'
+COPY batters(Name,Team,Year,G,PA,HR,R,RBI,SB,BB_rate,k_rate,ISO,BABIP,AVG,OBP,SLG,wOBA,wrc_plus,EV,BsR,Off,Def,WAR,Fplayerid,war_per_600)
+FROM '/home/tim/Documents/baseball-data/Batters.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -70,11 +71,12 @@ CREATE TABLE pitchers (
     FIP REAL,
     xFIP REAL,
     WAR REAL,
-    Fplayerid INTEGER
+    Fplayerid INTEGER,
+    war_per_200 REAL
 );
 
-COPY pitchers(Name, Team, Year, W, L, SV, G, GS, IP, K_per_9, BB_per_9, HR_per_9, BABIP, LOB_rate, GB_rate, HR_per_FB, EV, ERA, FIP, xFIP, WAR, Fplayerid)
-FROM '~/Documents/baseball-data/Pitchers.csv'
+COPY pitchers(Name, Team, Year, W, L, SV, G, GS, IP, K_per_9, BB_per_9, HR_per_9, BABIP, LOB_rate, GB_rate, HR_per_FB, EV, ERA, FIP, xFIP, WAR, Fplayerid, war_per_200)
+FROM '/home/tim/Documents/baseball-data/Pitchers.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -85,19 +87,21 @@ CREATE TABLE career_stats (
     bat_career REAL,
     bat_peak REAL,
     bat_avg REAL,
+    careers_pas REAL,
     bat_rate_career REAL,
     bat_rate_peak REAL,
     bat_rate_avg REAL,
     pit_career REAL,
     pit_peak REAL,
     pit_avg REAL,
+    career_ip REAL,
     pit_rate_career REAL,
     pit_rate_peak REAL,
     pit_rate_avg REAL
-)
+);
 
 
-COPY career_stats (playerid	bat_career, bat_peak, bat_avg, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, pit_rate_career, pit_rate_peak, pit_rate_avg)
-FROM '~/Documents/baseball-data/Career_stats.csv'
+COPY career_stats(Fplayerid, bat_career, bat_peak, bat_avg, careers_pas, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, career_ip, pit_rate_career, pit_rate_peak, pit_rate_avg)
+FROM '/home/tim/Documents/baseball-data/Career_stats.csv'
 DELIMITER ','
 CSV HEADER;
