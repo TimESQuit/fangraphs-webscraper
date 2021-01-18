@@ -8,7 +8,7 @@ CREATE TABLE player_info (
 
 
 COPY player_info(Name, Fplayerid)
-FROM '/home/tim/Downloads/Player_info.csv'
+FROM '~/Documents/baseball-data/Player_info.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -43,7 +43,7 @@ CREATE TABLE batters (
 
 
 COPY batters(Name,Team,Year,G,PA,HR,R,RBI,SB,BB_rate,k_rate,ISO,BABIP,AVG,OBP,SLG,wOBA,wrc_plus,EV,BsR,Off,Def,WAR,Fplayerid)
-FROM '/home/tim/Downloads/Batters.csv'
+FROM '~/Documents/baseball-data/Batters.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -74,7 +74,7 @@ CREATE TABLE pitchers (
 );
 
 COPY pitchers(Name, Team, Year, W, L, SV, G, GS, IP, K_per_9, BB_per_9, HR_per_9, BABIP, LOB_rate, GB_rate, HR_per_FB, EV, ERA, FIP, xFIP, WAR, Fplayerid)
-FROM '/home/tim/Downloads/Pitchers.csv'
+FROM '~/Documents/baseball-data/Pitchers.csv'
 DELIMITER ','
 CSV HEADER;
 
@@ -96,3 +96,8 @@ CREATE TABLE career_stats (
     pit_rate_avg REAL
 )
 
+
+COPY career_stats (playerid	bat_career, bat_peak, bat_avg, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, pit_rate_career, pit_rate_peak, pit_rate_avg)
+FROM '~/Documents/baseball-data/Career_stats.csv'
+DELIMITER ','
+CSV HEADER;

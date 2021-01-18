@@ -12,7 +12,7 @@ year = 2020
 while year > 1870:
     kinds = ['Batting', 'Pitching']
     for kind in kinds:
-        file = f"~/Downloads/Data/{kind}/{year}.csv"
+        file = f"~/Documents/baseball-data/Data/{kind}/{year}.csv"
         df = pd.read_csv(file)
         df.insert(2, "Year", year)
 
@@ -74,6 +74,6 @@ def war_per_200(row):
 
 pitchers['WAR/200'] = pitchers.apply(war_per_200, axis=1)
 
-# pitchers.to_csv("~/Downloads/Pitchers.csv", index=False)
-# batters.to_csv("~/Downloads/Batters.csv", index=False)
-# players.to_csv("~/Downloads/Player_info.csv", index=False)
+pitchers.to_csv("~/Documents/baseball-data/Pitchers.csv", index=False)
+batters.to_csv("~/Documents/baseball-data/Batters.csv", index=False)
+players.to_csv("~/Documents/baseball-data/Player_info.csv", index=False)

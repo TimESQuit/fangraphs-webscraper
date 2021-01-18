@@ -4,9 +4,9 @@ import pandas as pd
 
 from helper_functions import ip_fraction_handler
 
-batters = pd.read_csv("~/Downloads/Batters.csv")
-pitchers = pd.read_csv("~/Downloads/Pitchers.csv")
-players = pd.read_csv("~/Downloads/Player_info.csv")
+batters = pd.read_csv("~/Documents/baseball-data/Batters.csv")
+pitchers = pd.read_csv("~/Documents/baseball-data/Pitchers.csv")
+players = pd.read_csv("~/Documents/baseball-data/Player_info.csv")
 
 batters = batters.sort_values(
     ['playerid', 'WAR', 'WAR/600'], ascending=[True, False, False])
@@ -95,4 +95,5 @@ def pit_rate_cruncher(id):
         return [career_rate, peak_rate, avg_rate]
 
 
-aggregate_career_stats().to_csv("~/Downloads/Career_stats.csv", index=False)
+aggregate_career_stats().to_csv(
+    "~/Documents/baseball-data/Career_stats.csv", index=False)
