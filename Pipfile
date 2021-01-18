@@ -9,10 +9,13 @@ requests = "*"
 pandas = "*"
 selenium = "*"
 chromedriver = "*"
-black = "*"
+SQLAlchemy = "*"
 
 [dev-packages]
 pylint = "*"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
