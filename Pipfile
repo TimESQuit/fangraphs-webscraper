@@ -4,8 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-beautifulsoup4 = "*"
-requests = "*"
 pandas = "*"
 selenium = "*"
 chromedriver = "*"
@@ -13,6 +11,7 @@ SQLAlchemy = "*"
 
 [dev-packages]
 pylint = "*"
+black = "*"
 
 [requires]
 python_version = "3.8"
