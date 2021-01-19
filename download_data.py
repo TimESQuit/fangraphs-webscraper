@@ -94,6 +94,7 @@ while year > 1870:
     year -= 1
 
 print(
-    f"All requested years' data download attempts are finished. There were {errors} errors.")
+    f"All requested years' data download attempts are finished. There were {errors} errors."
+)
 
 driver.quit()

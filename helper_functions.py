@@ -30,4 +30,4 @@ def percentage_to_decimal(num_string):
         return num_string
     else:
         num = num_string[:-1]
-        return float(num)/100
+        return float(num) / 100
