@@ -21,10 +21,12 @@ def aggregate_career_stats():
     """
     cols = [
         "playerid",
+        "default_batting",
         "bat_career",
         "bat_peak",
         "bat_avg",
         "career_pas",
+        "peak_pas",
         "bat_rate_career",
         "bat_rate_peak",
         "bat_rate_avg",
@@ -32,6 +34,7 @@ def aggregate_career_stats():
         "pit_peak",
         "pit_avg",
         "career_ip",
+        "peak_ip",
         "pit_rate_career",
         "pit_rate_peak",
         "pit_rate_avg",
@@ -40,16 +43,21 @@ def aggregate_career_stats():
     df = pd.DataFrame(columns=cols)
     ids = players["playerid"]
 
-    tick = time.perf_counter()  # Setup timing the next operations
+    tick = time.perf_counter()  # Setup timing of the next operations
 
-    # This loops over each playerid (unique values), calculates 14 different stats, and fills them into the DataFrame.
+    # This loops over each playerid (unique values), calculates different stats, and fills them into the DataFrame.
     for i, id in enumerate(ids):
         bat_regular = bat_reg_cruncher(id)
         bat_rates = bat_rate_cruncher(id)
         pit_regular = pit_reg_cruncher(id)
         pit_rates = pit_rate_cruncher(id)
+
+        # Sets wether a player is primarily a batter or pitcher based on wether he has more career PAs or IP
+        default_batting = 1 if bat_rates[0] > pit_rates[0] else 0
+
         df.loc[i] = [
             id,
+            default_batting,
             bat_regular[0],
             bat_regular[1],
             bat_regular[2],
@@ -57,6 +65,7 @@ def aggregate_career_stats():
             bat_rates[1],
             bat_rates[2],
             bat_rates[3],
+            bat_rates[4],
             pit_regular[0],
             pit_regular[1],
             pit_regular[2],
@@ -64,9 +73,17 @@ def aggregate_career_stats():
             pit_rates[1],
             pit_rates[2],
             pit_rates[3],
+            pit_rates[4],
         ]
 
-    df = df.astype({"playerid": "int64", "career_pas": "int64"})
+    df = df.astype(
+        {
+            "playerid": "int64",
+            "default_batting": "int64",
+            "career_pas": "int64",
+            "peak_pas": "int64",
+        }
+    )
 
     # Stop timing after the operations have finished.
     tock = time.perf_counter()
@@ -93,18 +110,18 @@ def bat_rate_cruncher(id):
     career_pas = player.sum()["PA"]
     career_war = round(player.sum()["WAR"], 1)
     if not career_pas > 0:
-        return [0, 0, 0, 0]
+        return [0, 0, 0, 0, 0]
     else:
         career_rate = round((career_war / career_pas * 600), 2)
         peak_pas = player.nlargest(7, ["WAR", "WAR/600"]).sum()["PA"]
         peak_war = player.nlargest(7, ["WAR", "WAR/600"]).sum()["WAR"]
         peak_rate = round((peak_war / peak_pas * 600), 2)
         avg_rate = round(((career_rate + peak_rate) / 2), 2)
-        return [career_pas, career_rate, peak_rate, avg_rate]
+        return [career_pas, peak_pas, career_rate, peak_rate, avg_rate]
 
 
 def pit_reg_cruncher(id):
-    # This function returns a pitcher's career pitching WAR, 7-year-peak WAR and the average of the tw
+    # This function returns a pitcher's career pitching WAR, 7-year-peak WAR and the average of the two.
     player = pitchers[pitchers["playerid"] == id]
     career = round(player.sum()["WAR"], 1)
     peak = round(player.nlargest(7, "WAR").sum()["WAR"], 1)
@@ -120,7 +137,7 @@ def pit_rate_cruncher(id):
     career_ip = ip_fraction_handler(career_years_ip)
     career_war = round(player.sum()["WAR"], 1)
     if not career_ip > 0:
-        return [0, 0, 0, 0]
+        return [0, 0, 0, 0, 0]
     else:
         career_rate = round((career_war / career_ip * 200), 2)
         peak_years = player.nlargest(7, ["WAR", "WAR/200"])
@@ -129,10 +146,8 @@ def pit_rate_cruncher(id):
         peak_war = player.nlargest(7, ["WAR", "WAR/200"]).sum()["WAR"]
         peak_rate = round((peak_war / peak_ip * 200), 2)
         avg_rate = round(((career_rate + peak_rate) / 2), 2)
-        return [career_ip, career_rate, peak_rate, avg_rate]
+        return [career_ip, peak_ip, career_rate, peak_rate, avg_rate]
 
 
-# Runs the main function and converts the returned DataFrame into a CSV.
-aggregate_career_stats().to_csv(
-    "~/Documents/baseball-data/Career_stats.csv", index=False
-)
+career_stats = aggregate_career_stats()
+career_stats.to_csv("~/Documents/baseball-data/Career_stats.csv", index=False)
