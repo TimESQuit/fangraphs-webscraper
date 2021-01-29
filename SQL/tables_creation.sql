@@ -3,7 +3,9 @@
 CREATE TABLE player_info (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     Name VARCHAR,
-    Fplayerid INTEGER
+    Fplayerid INTEGER,
+    first_year INTEGER,
+    last_year INTEGER
 );
 
 
@@ -84,10 +86,12 @@ CSV HEADER;
 CREATE TABLE career_stats (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     Fplayerid INTEGER,
+    default_batting INTEGER,
     bat_career REAL,
     bat_peak REAL,
     bat_avg REAL,
-    careers_pas REAL,
+    career_pas INTEGER,
+    peak_pas INTEGER,
     bat_rate_career REAL,
     bat_rate_peak REAL,
     bat_rate_avg REAL,
@@ -95,6 +99,7 @@ CREATE TABLE career_stats (
     pit_peak REAL,
     pit_avg REAL,
     career_ip REAL,
+    peak_ip REAL,
     pit_rate_career REAL,
     pit_rate_peak REAL,
     pit_rate_avg REAL
