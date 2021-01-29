@@ -106,7 +106,7 @@ CREATE TABLE career_stats (
 );
 
 
-COPY career_stats(Fplayerid, bat_career, bat_peak, bat_avg, careers_pas, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, career_ip, pit_rate_career, pit_rate_peak, pit_rate_avg)
+COPY career_stats(Fplayerid, bat_career, bat_peak, bat_avg, career_pas, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, career_ip, pit_rate_career, pit_rate_peak, pit_rate_avg)
 FROM '/home/tim/Documents/baseball-data/Career_stats.csv'
 DELIMITER ','
 CSV HEADER;
