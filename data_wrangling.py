@@ -23,7 +23,7 @@ while year > 1870:
 
     year -= 1
 
-# These create one dataframe each for all batting and pitching data
+# Create one dataframe each for all batting and pitching data
 batters = pd.concat(batter_dfs, axis=0, ignore_index=0)
 pitchers = pd.concat(pitcher_dfs, axis=0, ignore_index=0)
 
@@ -71,6 +71,52 @@ def war_per_200(row):
 
 
 pitchers["WAR/200"] = pitchers.apply(war_per_200, axis=1)
+
+
+def get_player_info():
+    # Combines player info into new df
+    cols = ["Name", "playerid", "first_year", "second_year"]
+    df = pd.DataFrame(columns=cols)
+    ids = players["playerid"]
+    errors = 0
+    for i, id in enumerate(ids):
+        name = players[players["playerid"] == id]["Name"].values[0]
+        years = get_year_ends(id)
+        first_year = years[0]
+        last_year = years[1]
+        df.loc[i] = [name, id, first_year, last_year]
+
+        errors += years[2]
+    print(f"They were {errors} errors calculating years")
+    return df
+
+
+def get_year_ends(id):
+    # Finds First and Last year for a player
+    batter = batters[batters["playerid"] == id]["Year"].values
+    pitcher = pitchers[pitchers["playerid"] == id]["Year"].values
+    first_year = 3000
+    last_year = 0
+    errors = 0
+    try:
+        first_year = batter.min()
+    except ValueError:
+        try:
+            first_year = pitcher.min()
+        except ValueError:
+            errors += 1
+    try:
+        last_year = batter.max()
+    except ValueError:
+        try:
+            last_year = pitcher.max()
+        except ValueError:
+            errors += 1
+
+    return [first_year, last_year, errors]
+
+
+players = get_player_info()
 
 pitchers.to_csv("~/Documents/baseball-data/Pitchers.csv", index=False)
 batters.to_csv("~/Documents/baseball-data/Batters.csv", index=False)
