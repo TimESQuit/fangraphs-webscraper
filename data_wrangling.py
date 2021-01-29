@@ -75,7 +75,7 @@ pitchers["WAR/200"] = pitchers.apply(war_per_200, axis=1)
 
 def get_player_info():
     # Combines player info into new df
-    cols = ["Name", "playerid", "first_year", "second_year"]
+    cols = ["Name", "playerid", "first_year", "last_year"]
     df = pd.DataFrame(columns=cols)
     ids = players["playerid"]
     errors = 0
@@ -88,6 +88,9 @@ def get_player_info():
 
         errors += years[2]
     print(f"They were {errors} errors calculating years")
+
+    df = df.astype({"playerid": "int64", "first_year": "int64", "last_year": "int64"})
+
     return df
 
 
