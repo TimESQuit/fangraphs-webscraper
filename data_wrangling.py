@@ -87,7 +87,7 @@ def get_player_info():
         df.loc[i] = [name, id, first_year, last_year]
 
         errors += years[2]
-    print(f"They were {errors} errors calculating years")
+    print(f"There were {errors} errors calculating years")
 
     df = df.astype({"playerid": "int64", "first_year": "int64", "last_year": "int64"})
 
@@ -100,21 +100,36 @@ def get_year_ends(id):
     pitcher = pitchers[pitchers["playerid"] == id]["Year"].values
     first_year = 3000
     last_year = 0
-    errors = 0
+    first_errors = 0
+    last_errors = 0
+
+    first_bat, first_pit = 3001, 3001
+    last_bat, last_pit = 1, 1
+
     try:
-        first_year = batter.min()
-    except ValueError:
-        try:
-            first_year = pitcher.min()
-        except ValueError:
-            errors += 1
+        first_bat = batter.min()
+    except:
+        first_errors += 1
+
     try:
-        last_year = batter.max()
-    except ValueError:
-        try:
-            last_year = pitcher.max()
-        except ValueError:
-            errors += 1
+        first_pit = pitcher.min()
+    except:
+        first_errors += 1
+
+    try:
+        last_bat = batter.max()
+    except:
+        last_errors += 1
+
+    try:
+        last_pit = pitcher.max()
+    except:
+        last_errors += 1
+
+    first_year = min(first_bat, first_pit)
+    last_year = max(last_bat, last_pit)
+
+    errors = int(first_errors // 2 + last_errors // 2)
 
     return [first_year, last_year, errors]
 
