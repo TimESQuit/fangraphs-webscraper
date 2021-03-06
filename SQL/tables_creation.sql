@@ -110,3 +110,30 @@ COPY career_stats(Fplayerid, default_batting, bat_career, bat_peak, bat_avg, car
 FROM '/home/tim/Documents/baseball-data/Career_stats.csv'
 DELIMITER ','
 CSV HEADER;
+
+
+CREATE TABLE stat_descriptions (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    description_type VARCHAR,
+    bat_career VARCHAR,
+    bat_peak VARCHAR,
+    bat_avg VARCHAR,
+    bat_rate_career VARCHAR,
+    bat_rate_peak VARCHAR,
+    bat_rate_avg VARCHAR,
+    pit_career VARCHAR,
+    pit_peak VARCHAR,
+    pit_avg VARCHAR,
+    pit_rate_career VARCHAR,
+    pit_rate_peak VARCHAR,
+    pit_rate_avg VARCHAR,
+    career_ip VARCHAR,
+    career_pas VARCHAR,
+    peak_ip VARCHAR,
+    peak_pas VARCHAR
+);
+
+COPY stat_descriptions(description_type, bat_career, bat_peak, bat_avg, bat_rate_career, bat_rate_peak, bat_rate_avg, pit_career, pit_peak, pit_avg, pit_rate_career, pit_rate_peak, pit_rate_avg, career_ip, career_pas, peak_ip, peak_pas)
+FROM '/home/tim/Documents/baseball-data/stat_descriptions.csv'
+DELIMITER ','
+CSV HEADER;
